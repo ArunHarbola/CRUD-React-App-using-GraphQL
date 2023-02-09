@@ -2,6 +2,7 @@
 
 body {
   margin: 0;
+  padding-left: 30px;
   font-family: -apple-system, BlinkMacSystemFont, 'Nunito', 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -16,3 +17,18 @@ code {
 #update{
   display: block;
 }
+/* .kebab {
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 0 16px;
+  top: 12px;
+  figure {
+    width: 6px;
+    height: 6px;
+    border-radius: 5px;
+    background: #00bcd4;
+    margin: 3px 0;
+  }
+} */

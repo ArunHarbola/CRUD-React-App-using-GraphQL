@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import  { useState , useEffect} from 'react';
 // import { Container, Row, Col } from "react-bootstrap";
 import { useQuery , useMutation } from '@apollo/client';
 import {GET_LEADS , DELETE_LEAD} from './queries';
@@ -7,6 +7,11 @@ import Tabs from 'react-bootstrap/Tabs';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import UpdateLead from './updateLead';
+import Sidebar from './Sidebar';
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 // import Form from 'react-bootstrap/Form';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { MDBCol, MDBIcon } from "mdbreact";
@@ -15,7 +20,7 @@ import { flattenObj } from '../../components/utils/responseFlatten';
 import { MDBTable, MDBTableHead, MDBTableBody , MDBBadge , MDBBtn } from 'mdb-react-ui-kit';
 export default function Read() {
     const [leads, setLeads] = useState([]);
-    let shows = true ;
+    let [shows,setShows] = useState(true) ;
      function FetchData() {
         useQuery(GET_LEADS, {
           onCompleted: (res) => {
@@ -71,12 +76,18 @@ export default function Read() {
         // const ps = item?.getElementsByTagName('p');
         // console.log(ps.innerText);
       };
+      
       const updateLead = (id) => {
         //  let item = document.getElementById('update') ; 
         //  item?.style.display = "block";
-        shows = true ;
+        setShows(true);
+        
         // <UpdateLead shows={shows}/>
       };
+      useEffect(()=>{
+        console.log('wow');
+        console.log(shows);
+      },[shows]);
       const RenderLeads = () => {
         return (
           leads.map((item: any) => {
@@ -99,9 +110,11 @@ export default function Read() {
                     <td><p className='fw-bold mb-1'>{item.updatedAt}</p></td>
                     <td><MDBBadge color='primary' pill>{item.Status}</MDBBadge></td>
                     <td>
-                        <Dropdown>
-                        <Dropdown.Toggle variant="secondary" id="dropdown-basic" size="sm">
-                            Options
+
+               
+                        <Dropdown className="dropdown  dropdown-kebab-pf">
+                        <Dropdown.Toggle  className="btn btn-link dropdown-toggle" variant="light" id="dropdown-basic" size="sm">
+                        <span className="fa fa-ellipsis-v"></span>
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
                             <Dropdown.Item onClick={()=>updateLead(item.id)}>Edit</Dropdown.Item>
@@ -118,13 +131,30 @@ export default function Read() {
       
     return (
         <div>
+            <Sidebar/>
+            <br />
             <h1>Clients</h1>
+            
             <div>
-                <Tabs defaultActiveKey="clients" id="uncontrolled-tab-example" className="mb-3">
+            <Navbar bg="light" expand="lg">
+              <Container>
+                <Navbar.Brand href="https://sapien.systems/">Sapien Systems</Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                  <Nav className="me-auto">
+                    <Nav.Link href="/">Home</Nav.Link>
+                    <Nav.Link href="/rcud">Clients</Nav.Link>
+                   
+                  </Nav>
+                </Navbar.Collapse>
+              </Container>
+            </Navbar>
+                {/* <Tabs defaultActiveKey="clients" id="uncontrolled-tab-example" className="mb-3">
                     <Tab eventKey="clients" title="Clients"/>
                     <Tab eventKey="tab2" title="Tab 2"/>
                     <Tab eventKey="tab3" title="Tab 3" />
-                </Tabs>
+                </Tabs> */}
+               
                 <div
                     style={{
                     background: 'black',
@@ -142,7 +172,6 @@ export default function Read() {
                 <Button>Sort</Button>
             </div>
             <div id='update' >
-              <h1>GO</h1>
               <UpdateLead shows={shows} />
             </div>
             <div>
